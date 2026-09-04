@@ -1,8 +1,11 @@
 spring:
+  # Carga las variables de entorno desde el archivo .env local
+  config:
+    import: optional:file:.env[.properties]
   datasource:
-    url: jdbc:postgresql://HOST:PUERTO/NOMBRE_BD
-    username: TU_USUARIO
-    password: TU_PASSWORD
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
