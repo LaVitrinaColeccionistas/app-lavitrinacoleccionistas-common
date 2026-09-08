@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-detalle-orden-compra
+      author: equipo
+      changes:
+        - createTable:
+            tableName: detalle_orden_compra
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_orden, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_detalle_orden, references: orden_compra(id)}}
+              - column: {name: id_producto, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: id_publicacion, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: nombre_producto_snapshot, type: VARCHAR(255), constraints: {nullable: false}}
+              - column: {name: cantidad, type: INTEGER, constraints: {nullable: false}}
+              - column: {name: precio_unitario_historico, type: "DECIMAL(12,2)", constraints: {nullable: false}}
+              - column: {name: subtotal_item, type: "DECIMAL(12,2)", constraints: {nullable: false}}

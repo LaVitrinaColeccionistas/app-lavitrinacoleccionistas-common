@@ -13,7 +13,7 @@ databaseChangeLog:
               - column: {name: estado_conservacion, type: VARCHAR(50)}
               - column: {name: rareza, type: VARCHAR(50)}
               - column: {name: stock, type: INT}
-              - column: {name: precio_referencia, type: DECIMAL(12,2)}
+              - column: {name: precio_referencia, type: "DECIMAL(12,2)"}
               - column: {name: url_imagen, type: VARCHAR(500)}
               - column: {name: version, type: INT}
               - column: {name: activo, type: BOOLEAN, defaultValueBoolean: true}

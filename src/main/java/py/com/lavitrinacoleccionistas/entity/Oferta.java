@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import py.com.lavitrinacoleccionistas.enums.EstadoOferta;
+import java.math.BigDecimal;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,9 @@ public class Oferta extends BaseEntity{
 
     @Column(name = "id_comprador", nullable = false)
     private Long idComprador;
+
+    @Column(name = "monto_ofertado", nullable = false)
+    private BigDecimal montoOfertado;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_oferta", nullable = false)

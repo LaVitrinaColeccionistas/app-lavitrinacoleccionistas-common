@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 011-create-detalle-intercambio
+      author: equipo
+      changes:
+        - createTable:
+            tableName: detalle_intercambio
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_intercambio, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_detalle_intercambio, references: intercambio(id)}}
+              - column: {name: id_producto, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: nombre_producto_snapshot, type: VARCHAR(255), constraints: {nullable: false}}
+              - column: {name: cantidad, type: INTEGER, constraints: {nullable: false}}
+              - column: {name: tipo_movimiento, type: VARCHAR(30), constraints: {nullable: false}}

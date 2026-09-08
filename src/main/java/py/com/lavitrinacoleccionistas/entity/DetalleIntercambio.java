@@ -3,6 +3,7 @@ package py.com.lavitrinacoleccionistas.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import py.com.lavitrinacoleccionistas.enums.TipoMovimientoIntercambio;
 
 @Entity
 @Table(name = "detalle_intercambio")
@@ -23,7 +24,8 @@ public class DetalleIntercambio extends BaseEntity {
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_movimiento", nullable = false)
-    private String tipoMovimiento;
+    private TipoMovimientoIntercambio tipoMovimiento;
 }
 

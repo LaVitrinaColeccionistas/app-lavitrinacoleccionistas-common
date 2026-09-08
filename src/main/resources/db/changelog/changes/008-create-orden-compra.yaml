@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-create-orden-compra
+      author: equipo
+      changes:
+        - createTable:
+            tableName: orden_compra
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_comprador, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: fecha_orden, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: estado_orden, type: VARCHAR(30), constraints: {nullable: false}}
+              - column: {name: monto_subtotal, type: "DECIMAL(12,2)", constraints: {nullable: false}}
+              - column: {name: costo_envio, type: "DECIMAL(12,2)", constraints: {nullable: false}}
+              - column: {name: monto_total, type: "DECIMAL(12,2)", constraints: {nullable: false}}
+              - column: {name: metodo_pago, type: VARCHAR(30), constraints: {nullable: false}}
+              - column: {name: fecha_creacion, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: fecha_actualizacion, type: TIMESTAMP}

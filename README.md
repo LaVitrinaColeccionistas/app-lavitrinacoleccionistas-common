@@ -1,51 +1,67 @@
-Documentacion openapi generator
-- https://www.baeldung.com/java-openapi-generator-server 
+# La Vitrina Coleccionistas
 
-## Modelado de base de datos
+## Documentación OpenAPI Generator
+- La estructura de PostgreSQL es gestionada mediante **Liquibase**.
+-   https://www.baeldung.com/java-openapi-generator-server
 
-### Servicio de Identidad
+## Modelo de datos
+Las entidades comparten atributos mediante `BaseEntity` y `AuditableEntity`, aplicando
+herencia, abstracción y encapsulación.
 
-```mermaid
+### Usuarios, roles y soporte
+
+``` mermaid
 erDiagram
+    ROL {
+        BIGINT id PK
+        VARCHAR tipo_rol
+        TIMESTAMP fecha_creacion
+        TIMESTAMP fecha_actualizacion
+    }
+
     USUARIO {
-        UUID id_usuario PK
+        BIGINT id PK
+        BIGINT id_rol FK
         VARCHAR email
+        VARCHAR password_hash
+        VARCHAR estado
+        TIMESTAMP fecha_creacion
+        TIMESTAMP fecha_actualizacion
+    }
+
+    PERFIL_USUARIO {
+        BIGINT id PK
+        BIGINT id_usuario FK
         VARCHAR nombre
         VARCHAR apellido
         VARCHAR telefono
         VARCHAR direccion_envio
-        VARCHAR estado
-        TIMESTAMP fecha_registro
-        TIMESTAMP fecha_actualizacion
     }
-    ROL {
-        SMALLINT id_rol PK
-        VARCHAR nombre
-    }
-    USUARIO_ROL {
-        UUID id_usuario FK
-        SMALLINT id_rol FK
-        TIMESTAMP fecha_asignacion
-    }
+
     TICKET_SOPORTE {
-        UUID id_ticket PK
+        BIGINT id PK
         VARCHAR nombre
         VARCHAR email
         VARCHAR asunto
         TEXT mensaje
         TIMESTAMP fecha_envio
     }
-    USUARIO ||--o{ USUARIO_ROL : tiene
-    ROL ||--o{ USUARIO_ROL : asignado_en
+
+    ROL ||--o{ USUARIO : asignado_a
+    USUARIO ||--|| PERFIL_USUARIO : tiene
 ```
+
+`Usuario` concentra los datos de acceso, estado y rol, mientras que
+`PerfilUsuario` almacena la información personal. `TicketSoporte`
+representa el formulario de contacto definido para soporte.
 
 ### MS1 - Catálogo
 
-```mermaid
+``` mermaid
 erDiagram
     PRODUCTO {
-        UUID id_producto PK
-        UUID id_vendedor "ref externa a USUARIO"
+        BIGINT id PK
+        BIGINT id_vendedor
         VARCHAR nombre
         VARCHAR categoria
         VARCHAR estado_conservacion
@@ -58,9 +74,10 @@ erDiagram
         TIMESTAMP fecha_creacion
         TIMESTAMP fecha_actualizacion
     }
+
     PUBLICACION {
-        UUID id_publicacion PK
-        UUID id_vendedor "ref externa a USUARIO"
+        BIGINT id PK
+        BIGINT id_vendedor
         VARCHAR titulo
         TEXT descripcion
         VARCHAR tipo_venta
@@ -69,67 +86,96 @@ erDiagram
         TIMESTAMP fecha_creacion
         TIMESTAMP fecha_actualizacion
     }
+
     DETALLE_PUBLICACION {
-        UUID id_detalle_pub PK
-        UUID id_publicacion FK
-        UUID id_producto FK
+        BIGINT id PK
+        BIGINT id_publicacion FK
+        BIGINT id_producto FK
         DECIMAL precio_unitario
         INT cantidad_publicada
     }
+
+    OFERTA {
+        BIGINT id PK
+        BIGINT id_publicacion FK
+        BIGINT id_comprador
+        DECIMAL monto_ofertado
+        VARCHAR estado
+        TIMESTAMP fecha_oferta
+        TIMESTAMP fecha_respuesta
+    }
+
     PUBLICACION ||--o{ DETALLE_PUBLICACION : contiene
     PRODUCTO ||--o{ DETALLE_PUBLICACION : referenciado_en
+    PUBLICACION ||--o{ OFERTA : recibe
 ```
+
+El catálogo permite representar productos, publicaciones y ofertas.
+`DetallePublicacion` resuelve la relación entre publicaciones y
+productos.
 
 ### MS2 - Órdenes / Compras
 
-```mermaid
+``` mermaid
 erDiagram
     ORDEN_COMPRA {
-        UUID id_orden PK
-        UUID id_comprador "ref externa a USUARIO"
+        BIGINT id PK
+        BIGINT id_comprador
         TIMESTAMP fecha_orden
         VARCHAR estado_orden
         DECIMAL monto_subtotal
         DECIMAL costo_envio
-        DECIMAL comision_plataforma
         DECIMAL monto_total
         VARCHAR metodo_pago
+        TIMESTAMP fecha_creacion
         TIMESTAMP fecha_actualizacion
     }
-    DETALLE_ORDEN {
-        UUID id_detalle_orden PK
-        UUID id_orden FK
-        UUID id_producto "ref externa a PRODUCTO (MS1)"
-        UUID id_publicacion "ref externa a PUBLICACION (MS1)"
+
+    DETALLE_ORDEN_COMPRA {
+        BIGINT id PK
+        BIGINT id_orden FK
+        BIGINT id_producto
+        BIGINT id_publicacion
         VARCHAR nombre_producto_snapshot
         INT cantidad
         DECIMAL precio_unitario_historico
         DECIMAL subtotal_item
     }
-    ORDEN_COMPRA ||--o{ DETALLE_ORDEN : contiene
+
+    ORDEN_COMPRA ||--o{ DETALLE_ORDEN_COMPRA : contiene
 ```
+
+La orden persiste la compra y sus ítems. El pago se mantiene como un
+proceso externo al sistema, de acuerdo con el diseño funcional del
+proyecto.
 
 ### MS3 - Intercambios
 
-```mermaid
+``` mermaid
 erDiagram
     INTERCAMBIO {
-        UUID id_intercambio PK
-        UUID id_usuario_proponente "ref externa a USUARIO"
-        UUID id_usuario_receptor "ref externa a USUARIO"
+        BIGINT id PK
+        BIGINT id_usuario_proponente
+        BIGINT id_usuario_receptor
         VARCHAR estado
         DECIMAL diferencia_dinero
-        UUID usuario_paga_diferencia "ref externa a USUARIO"
+        BIGINT usuario_paga_diferencia
         TIMESTAMP fecha_creacion
         TIMESTAMP fecha_actualizacion
     }
+
     DETALLE_INTERCAMBIO {
-        UUID id_detalle PK
-        UUID id_intercambio FK
-        UUID id_producto "ref externa a PRODUCTO (MS1)"
+        BIGINT id PK
+        BIGINT id_intercambio FK
+        BIGINT id_producto
         VARCHAR nombre_producto_snapshot
         INT cantidad
         VARCHAR tipo_movimiento
     }
+
     INTERCAMBIO ||--o{ DETALLE_INTERCAMBIO : contiene
 ```
+
+Los intercambios registran al proponente, receptor, productos
+involucrados y una posible diferencia de dinero. 
+

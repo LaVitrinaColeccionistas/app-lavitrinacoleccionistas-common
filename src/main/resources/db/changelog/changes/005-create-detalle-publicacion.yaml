@@ -9,5 +9,5 @@ databaseChangeLog:
               - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
               - column: {name: id_publicacion, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_detpub_publicacion, references: publicacion(id)}}
               - column: {name: id_producto, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_detpub_producto, references: producto(id)}}
-              - column: {name: precio_unitario, type: DECIMAL(12,2), constraints: {nullable: false}}
+              - column: {name: precio_unitario, type: "DECIMAL(12,2)", constraints: {nullable: false}}
               - column: {name: cantidad_publicada, type: INT, constraints: {nullable: false}}

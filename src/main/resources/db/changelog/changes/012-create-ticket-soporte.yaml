@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 012-create-ticket-soporte
+      author: equipo
+      changes:
+        - createTable:
+            tableName: ticket_soporte
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: nombre, type: VARCHAR(100), constraints: {nullable: false}}
+              - column: {name: email, type: VARCHAR(150), constraints: {nullable: false}}
+              - column: {name: asunto, type: VARCHAR(150), constraints: {nullable: false}}
+              - column: {name: mensaje, type: TEXT, constraints: {nullable: false}}
+              - column: {name: fecha_envio, type: TIMESTAMP, constraints: {nullable: false}}

@@ -1,13 +1,25 @@
 databaseChangeLog:
   - include:
-      file: db.changelog/changes/001-create-rol.yaml
+      file: db/changelog/changes/001-create-rol.yaml
   - include:
-      file: db.changelog/changes/002-create-usuario.yaml
+      file: db/changelog/changes/002-create-usuario.yaml
   - include:
-      file: db.changelog/changes/003-create-producto.yaml
+      file: db/changelog/changes/003-create-producto.yaml
   - include:
-      file: db.changelog/changes/004-create-publicacion.yaml
+      file: db/changelog/changes/004-create-publicacion.yaml
   - include:
-      file: db.changelog/changes/005-create-detalle-publicacion.yaml
+      file: db/changelog/changes/005-create-detalle-publicacion.yaml
   - include:
-      file: db.changelog/changes/006-create-oferta.yaml
+      file: db/changelog/changes/006-create-oferta.yaml
+  - include:
+      file: db/changelog/changes/007-create-perfil-usuario.yaml
+  - include:
+      file: db/changelog/changes/008-create-orden-compra.yaml
+  - include:
+      file: db/changelog/changes/009-create-detalle-orden-compra.yaml
+  - include:
+      file: db/changelog/changes/010-create-intercambio.yaml
+  - include:
+      file: db/changelog/changes/011-create-detalle-intercambio.yaml
+  - include:
+      file: db/changelog/changes/012-create-ticket-soporte.yaml

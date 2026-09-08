@@ -3,6 +3,7 @@ package py.com.lavitrinacoleccionistas.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import py.com.lavitrinacoleccionistas.enums.EstadoUsuario;
 
 @Entity
 @Table(name = "usuario")
@@ -20,16 +21,15 @@ public class Usuario extends AuditableEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String nombre;
+    private EstadoUsuario estado;
 
-    @Column(nullable = false)
-    private String apellido;
-
-    private String telefono;
-
-    @Column(name = "direccion_envio")
-    private String direccionEnvio;
-
-    private String estado;
+    @OneToOne(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private PerfilUsuario perfil;
 }

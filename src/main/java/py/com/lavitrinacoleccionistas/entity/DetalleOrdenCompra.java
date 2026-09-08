@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "detalle_orden")
+@Table(name = "detalle_orden_compra")
 @Getter
 @Setter
 public class DetalleOrdenCompra extends BaseEntity {

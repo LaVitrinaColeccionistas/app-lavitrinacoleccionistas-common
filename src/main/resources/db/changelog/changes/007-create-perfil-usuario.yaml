@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-perfil-usuario
+      author: equipo
+      changes:
+        - createTable:
+            tableName: perfil_usuario
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_usuario, type: BIGINT, constraints: {nullable: false, unique: true, foreignKeyName: fk_perfil_usuario, references: usuario(id)}}
+              - column: {name: nombre, type: VARCHAR(100), constraints: {nullable: false}}
+              - column: {name: apellido, type: VARCHAR(100), constraints: {nullable: false}}
+              - column: {name: telefono, type: VARCHAR(30)}
+              - column: {name: direccion_envio, type: VARCHAR(255)}

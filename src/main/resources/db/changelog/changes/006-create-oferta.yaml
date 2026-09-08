@@ -9,6 +9,7 @@ databaseChangeLog:
               - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
               - column: {name: id_publicacion, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_oferta_publicacion, references: publicacion(id)}}
               - column: {name: id_comprador, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: monto_ofertado, type: "DECIMAL(12,2)", constraints: {nullable: false}}
               - column: {name: estado_oferta, type: VARCHAR(30), constraints: {nullable: false}}
               - column: {name: fecha_oferta, type: TIMESTAMP, constraints: {nullable: false}}
               - column: {name: fecha_respuesta, type: TIMESTAMP}

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-create-intercambio
+      author: equipo
+      changes:
+        - createTable:
+            tableName: intercambio
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_usuario_proponente, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: id_usuario_receptor, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: estado, type: VARCHAR(30), constraints: {nullable: false}}
+              - column: {name: diferencia_dinero, type: "DECIMAL(12,2)"}
+              - column: {name: usuario_paga_diferencia, type: BIGINT}
+              - column: {name: fecha_creacion, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: fecha_actualizacion, type: TIMESTAMP}
