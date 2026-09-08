@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-producto
+      author: equipo
+      changes:
+        - createTable:
+            tableName: producto
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_vendedor, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: nombre, type: VARCHAR(150), constraints: {nullable: false}}
+              - column: {name: categoria, type: VARCHAR(100)}
+              - column: {name: estado_conservacion, type: VARCHAR(50)}
+              - column: {name: rareza, type: VARCHAR(50)}
+              - column: {name: stock, type: INT}
+              - column: {name: precio_referencia, type: DECIMAL(12,2)}
+              - column: {name: url_imagen, type: VARCHAR(500)}
+              - column: {name: version, type: INT}
+              - column: {name: activo, type: BOOLEAN, defaultValueBoolean: true}
+              - column: {name: fecha_creacion, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: fecha_actualizacion, type: TIMESTAMP}

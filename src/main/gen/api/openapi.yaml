@@ -1,0 +1,769 @@
+openapi: 3.0.3
+info:
+  description: DTOs compartidos generados a partir de las entities del modelo de datos.
+  title: LaVitrinaColeccionistas - Commons
+  version: 0.0.1-SNAPSHOT
+servers:
+- url: /
+paths:
+  /roles:
+    get:
+      operationId: listarRoles
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/RolDTO'
+                type: array
+          description: OK
+      summary: Listar roles
+      x-accepts:
+      - application/json
+    post:
+      operationId: crearRol
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolCreateDTO'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolDTO'
+          description: Rol creado
+      summary: Crear rol
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /roles/{id}:
+    get:
+      operationId: obtenerRol
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolDTO'
+          description: OK
+        "404":
+          description: No encontrado
+      summary: Obtener rol por id
+      x-accepts:
+      - application/json
+  /usuarios:
+    get:
+      operationId: listarUsuarios
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UsuarioDTO'
+                type: array
+          description: OK
+      summary: Listar usuarios
+      x-accepts:
+      - application/json
+    post:
+      operationId: crearUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioCreateDTO'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioDTO'
+          description: Usuario creado
+      summary: Registrar usuario
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /usuarios/{id}:
+    get:
+      operationId: obtenerUsuario
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioDTO'
+          description: OK
+        "404":
+          description: No encontrado
+      summary: Obtener usuario por id
+      x-accepts:
+      - application/json
+    put:
+      operationId: actualizarUsuario
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioUpdateDTO'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioDTO'
+          description: Usuario actualizado
+      summary: Actualizar usuario
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /productos:
+    get:
+      operationId: listarProductos
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ProductoDTO'
+                type: array
+          description: OK
+      summary: Listar productos
+      x-accepts:
+      - application/json
+    post:
+      operationId: crearProducto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoCreateDTO'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoDTO'
+          description: Producto creado
+      summary: Crear producto
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /productos/{id}:
+    get:
+      operationId: obtenerProducto
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoDTO'
+          description: OK
+        "404":
+          description: No encontrado
+      summary: Obtener producto por id
+      x-accepts:
+      - application/json
+  /publicaciones:
+    get:
+      operationId: listarPublicaciones
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PublicacionDTO'
+                type: array
+          description: OK
+      summary: Listar publicaciones
+      x-accepts:
+      - application/json
+    post:
+      operationId: crearPublicacion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicacionCreateDTO'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicacionDTO'
+          description: Publicacion creada
+      summary: Crear publicacion
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /publicaciones/{id}:
+    get:
+      operationId: obtenerPublicacion
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicacionDTO'
+          description: OK
+        "404":
+          description: No encontrado
+      summary: Obtener publicacion por id
+      x-accepts:
+      - application/json
+  /publicaciones/{idPublicacion}/detalles:
+    get:
+      operationId: listarDetallesPublicacion
+      parameters:
+      - explode: false
+        in: path
+        name: idPublicacion
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DetallePublicacionDTO'
+                type: array
+          description: OK
+      summary: Listar detalles de una publicacion
+      x-accepts:
+      - application/json
+    post:
+      operationId: crearDetallePublicacion
+      parameters:
+      - explode: false
+        in: path
+        name: idPublicacion
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetallePublicacionCreateDTO'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetallePublicacionDTO'
+          description: Detalle creado
+      summary: Agregar detalle a una publicacion
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /ofertas:
+    get:
+      operationId: listarOfertas
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OfertaDTO'
+                type: array
+          description: OK
+      summary: Listar ofertas
+      x-accepts:
+      - application/json
+    post:
+      operationId: crearOferta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfertaCreateDTO'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfertaDTO'
+          description: Oferta creada
+      summary: Crear oferta
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /ofertas/{id}:
+    get:
+      operationId: obtenerOferta
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfertaDTO'
+          description: OK
+        "404":
+          description: No encontrado
+      summary: Obtener oferta por id
+      x-accepts:
+      - application/json
+components:
+  parameters:
+    IdPath:
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema:
+        format: int64
+        type: integer
+      style: simple
+  schemas:
+    RolDTO:
+      example:
+        tipoRol: COMPRADOR
+        fechaCreacion: 2000-01-23T04:56:07.000+00:00
+        fechaActualizacion: 2000-01-23T04:56:07.000+00:00
+        id: 0
+      properties:
+        id:
+          format: int64
+          type: integer
+        tipoRol:
+          enum:
+          - COMPRADOR
+          - VENDEDOR
+          - ADMIN
+          type: string
+        fechaCreacion:
+          format: date-time
+          type: string
+        fechaActualizacion:
+          format: date-time
+          type: string
+      type: object
+    RolCreateDTO:
+      example:
+        tipoRol: COMPRADOR
+      properties:
+        tipoRol:
+          enum:
+          - COMPRADOR
+          - VENDEDOR
+          - ADMIN
+          type: string
+      required:
+      - tipoRol
+      type: object
+    UsuarioDTO:
+      example:
+        estado: ACTIVO
+        apellido: apellido
+        fechaCreacion: 2000-01-23T04:56:07.000+00:00
+        fechaActualizacion: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        direccionEnvio: direccionEnvio
+        telefono: telefono
+        nombre: nombre
+        email: email
+        rol:
+          tipoRol: COMPRADOR
+          fechaCreacion: 2000-01-23T04:56:07.000+00:00
+          fechaActualizacion: 2000-01-23T04:56:07.000+00:00
+          id: 0
+      properties:
+        id:
+          format: int64
+          type: integer
+        email:
+          type: string
+        nombre:
+          type: string
+        apellido:
+          type: string
+        telefono:
+          type: string
+        direccionEnvio:
+          type: string
+        estado:
+          enum:
+          - ACTIVO
+          - SUSPENDIDO
+          - PENDIENTE_VERIFICACION
+          - RECHAZADO
+          type: string
+        rol:
+          $ref: '#/components/schemas/RolDTO'
+        fechaCreacion:
+          format: date-time
+          type: string
+        fechaActualizacion:
+          format: date-time
+          type: string
+      type: object
+    UsuarioCreateDTO:
+      example:
+        password: password
+        idRol: 0
+        apellido: apellido
+        direccionEnvio: direccionEnvio
+        telefono: telefono
+        nombre: nombre
+        email: email
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        nombre:
+          type: string
+        apellido:
+          type: string
+        telefono:
+          type: string
+        direccionEnvio:
+          type: string
+        idRol:
+          format: int64
+          type: integer
+      required:
+      - apellido
+      - email
+      - idRol
+      - nombre
+      - password
+      type: object
+    UsuarioUpdateDTO:
+      example:
+        estado: ACTIVO
+        apellido: apellido
+        direccionEnvio: direccionEnvio
+        telefono: telefono
+        nombre: nombre
+      properties:
+        nombre:
+          type: string
+        apellido:
+          type: string
+        telefono:
+          type: string
+        direccionEnvio:
+          type: string
+        estado:
+          enum:
+          - ACTIVO
+          - SUSPENDIDO
+          - PENDIENTE_VERIFICACION
+          - RECHAZADO
+          type: string
+      type: object
+    ProductoDTO:
+      example:
+        categoria: categoria
+        idVendedor: 6
+        fechaCreacion: 2000-01-23T04:56:07.000+00:00
+        fechaActualizacion: 2000-01-23T04:56:07.000+00:00
+        estadoConservacion: estadoConservacion
+        id: 0
+        stock: 1
+        nombre: nombre
+        rareza: rareza
+        precioReferencia: 5.962133916683182
+        urlImagen: urlImagen
+        activo: true
+      properties:
+        id:
+          format: int64
+          type: integer
+        idVendedor:
+          format: int64
+          type: integer
+        nombre:
+          type: string
+        categoria:
+          type: string
+        estadoConservacion:
+          type: string
+        rareza:
+          type: string
+        stock:
+          type: integer
+        precioReferencia:
+          format: double
+          type: number
+        urlImagen:
+          type: string
+        activo:
+          type: boolean
+        fechaCreacion:
+          format: date-time
+          type: string
+        fechaActualizacion:
+          format: date-time
+          type: string
+      type: object
+    ProductoCreateDTO:
+      example:
+        categoria: categoria
+        idVendedor: 0
+        estadoConservacion: estadoConservacion
+        stock: 6
+        nombre: nombre
+        rareza: rareza
+        precioReferencia: 1.4658129805029452
+        urlImagen: urlImagen
+      properties:
+        idVendedor:
+          format: int64
+          type: integer
+        nombre:
+          type: string
+        categoria:
+          type: string
+        estadoConservacion:
+          type: string
+        rareza:
+          type: string
+        stock:
+          type: integer
+        precioReferencia:
+          format: double
+          type: number
+        urlImagen:
+          type: string
+      required:
+      - idVendedor
+      - nombre
+      - precioReferencia
+      type: object
+    PublicacionDTO:
+      example:
+        descripcion: descripcion
+        estadoPublicacion: ACTIVA
+        tipoVenta: PRECIO_FIJO
+        idVendedor: 6
+        titulo: titulo
+        fechaCreacion: 2000-01-23T04:56:07.000+00:00
+        fechaActualizacion: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        fechaPublicacion: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: int64
+          type: integer
+        idVendedor:
+          format: int64
+          type: integer
+        titulo:
+          type: string
+        descripcion:
+          type: string
+        tipoVenta:
+          enum:
+          - PRECIO_FIJO
+          - OFERTA_LIBRE
+          type: string
+        estadoPublicacion:
+          enum:
+          - ACTIVA
+          - PAUSADA
+          - VENDIDA
+          - CANCELADA
+          type: string
+        fechaPublicacion:
+          format: date-time
+          type: string
+        fechaCreacion:
+          format: date-time
+          type: string
+        fechaActualizacion:
+          format: date-time
+          type: string
+      type: object
+    PublicacionCreateDTO:
+      example:
+        descripcion: descripcion
+        tipoVenta: PRECIO_FIJO
+        idVendedor: 0
+        titulo: titulo
+      properties:
+        idVendedor:
+          format: int64
+          type: integer
+        titulo:
+          type: string
+        descripcion:
+          type: string
+        tipoVenta:
+          enum:
+          - PRECIO_FIJO
+          - OFERTA_LIBRE
+          type: string
+      required:
+      - idVendedor
+      - tipoVenta
+      - titulo
+      type: object
+    DetallePublicacionDTO:
+      example:
+        precioUnitario: 1.4658129805029452
+        cantidadPublicada: 5
+        id: 0
+        producto:
+          categoria: categoria
+          idVendedor: 6
+          fechaCreacion: 2000-01-23T04:56:07.000+00:00
+          fechaActualizacion: 2000-01-23T04:56:07.000+00:00
+          estadoConservacion: estadoConservacion
+          id: 0
+          stock: 1
+          nombre: nombre
+          rareza: rareza
+          precioReferencia: 5.962133916683182
+          urlImagen: urlImagen
+          activo: true
+        idPublicacion: 6
+      properties:
+        id:
+          format: int64
+          type: integer
+        idPublicacion:
+          format: int64
+          type: integer
+        producto:
+          $ref: '#/components/schemas/ProductoDTO'
+        precioUnitario:
+          format: double
+          type: number
+        cantidadPublicada:
+          type: integer
+      type: object
+    DetallePublicacionCreateDTO:
+      example:
+        precioUnitario: 6.027456183070403
+        cantidadPublicada: 1
+        idProducto: 0
+      properties:
+        idProducto:
+          format: int64
+          type: integer
+        precioUnitario:
+          format: double
+          type: number
+        cantidadPublicada:
+          type: integer
+      required:
+      - cantidadPublicada
+      - idProducto
+      - precioUnitario
+      type: object
+    OfertaDTO:
+      example:
+        id: 0
+        estadoOferta: PENDIENTE
+        fechaOferta: 2000-01-23T04:56:07.000+00:00
+        idPublicacion: 6
+        idComprador: 1
+        fechaRespuesta: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: int64
+          type: integer
+        idPublicacion:
+          format: int64
+          type: integer
+        idComprador:
+          format: int64
+          type: integer
+        estadoOferta:
+          enum:
+          - PENDIENTE
+          - ACEPTADA
+          - RECHAZADA
+          - EXPIRADA
+          type: string
+        fechaOferta:
+          format: date-time
+          type: string
+        fechaRespuesta:
+          format: date-time
+          type: string
+      type: object
+    OfertaCreateDTO:
+      example:
+        idPublicacion: 0
+        idComprador: 6
+      properties:
+        idPublicacion:
+          format: int64
+          type: integer
+        idComprador:
+          format: int64
+          type: integer
+      required:
+      - idComprador
+      - idPublicacion
+      type: object
+

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog/changes/001-create-rol.yaml
+  - include:
+      file: db.changelog/changes/002-create-usuario.yaml
+  - include:
+      file: db.changelog/changes/003-create-producto.yaml
+  - include:
+      file: db.changelog/changes/004-create-publicacion.yaml
+  - include:
+      file: db.changelog/changes/005-create-detalle-publicacion.yaml
+  - include:
+      file: db.changelog/changes/006-create-oferta.yaml

@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-rol
+      author: equipo
+      changes:
+        - createTable:
+            tableName: rol
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: nombre, type: VARCHAR(50), constraints: {nullable: false, unique: true}}
+              - column: {name: fecha_creacion, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: fecha_actualizacion, type: TIMESTAMP}

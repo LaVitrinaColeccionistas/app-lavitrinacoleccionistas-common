@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-publicacion
+      author: equipo
+      changes:
+        - createTable:
+            tableName: publicacion
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_vendedor, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: titulo, type: VARCHAR(200), constraints: {nullable: false}}
+              - column: {name: descripcion, type: TEXT}
+              - column: {name: tipo_venta, type: VARCHAR(30), constraints: {nullable: false}}
+              - column: {name: estado_publicacion, type: VARCHAR(30), constraints: {nullable: false}}
+              - column: {name: fecha_publicacion, type: TIMESTAMP}
+              - column: {name: fecha_creacion, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: fecha_actualizacion, type: TIMESTAMP}
