@@ -563,6 +563,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetalleIntercambioDTO'
+  /tickets-soporte:
+    post:
+      summary: Crear ticket de soporte
+      operationId: crearTicketSoporte
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketSoporteCreateDTO'
+      responses:
+        '201':
+          description: Ticket de soporte creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSoporteDTO'
 
 components:
 
