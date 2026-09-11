@@ -22,7 +22,7 @@ public class DetalleOrdenCompra extends BaseEntity {
     @Column(name = "id_publicacion", nullable = false)
     private Long idPublicacion;
 
-    @Column(name = "nombre_producto_snapshot", nullable = false)
+    @Column(name = "nombre_producto_snapshot", nullable = false, length = 255)
     private String nombreProductoSnapshot;
 
     @Column(name = "cantidad", nullable = false)

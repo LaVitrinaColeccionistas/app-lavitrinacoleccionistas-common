@@ -8,7 +8,6 @@ import py.com.lavitrinacoleccionistas.enums.MetodoPago;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class OrdenCompra extends AuditableEntity {
     private LocalDateTime fechaOrden;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado_orden", nullable = false)
+    @Column(name = "estado_orden", nullable = false, length = 30)
     private EstadoOrden estadoOrden;
 
     @Column(name = "monto_subtotal", nullable = false)
@@ -38,13 +37,15 @@ public class OrdenCompra extends AuditableEntity {
     private BigDecimal montoTotal;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "metodo_pago", nullable = false)
+    @Column(name = "metodo_pago", nullable = false, length = 30)
     private MetodoPago metodoPago;
 
     @OneToMany(
             mappedBy = "ordenCompra",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
     private List<DetalleOrdenCompra> detalles = new ArrayList<>();
+
 }

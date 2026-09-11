@@ -14,14 +14,16 @@ public class PerfilUsuario extends BaseEntity {
     @JoinColumn(name = "id_usuario", nullable = false, unique = true)
     private Usuario usuario;
 
-    @Column(nullable = false)
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(name = "apellido", nullable = false, length = 100)
     private String apellido;
 
+    @Column(name = "telefono", length = 20)
     private String telefono;
 
-    @Column(name = "direccion_envio")
+    @Column(name = "direccion_envio", length = 255)
     private String direccionEnvio;
+
 }

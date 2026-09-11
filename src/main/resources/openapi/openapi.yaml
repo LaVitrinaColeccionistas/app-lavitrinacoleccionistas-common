@@ -646,8 +646,12 @@ components:
       properties:
         email:
           type: string
+          format: email
+          maxLength: 150
         password:
           type: string
+          minLength: 8
+          maxLength: 255
         idRol:
           type: integer
           format: int64
@@ -657,6 +661,8 @@ components:
       properties:
         email:
           type: string
+          format: email
+          maxLength: 150
         estado:
           type: string
           enum: [ACTIVO, SUSPENDIDO, PENDIENTE_VERIFICACION, RECHAZADO]
@@ -689,24 +695,36 @@ components:
           format: int64
         nombre:
           type: string
+          minLength: 1
+          maxLength: 100
         apellido:
           type: string
+          minLength: 1
+          maxLength: 100
         telefono:
           type: string
+          maxLength: 20
         direccionEnvio:
           type: string
+          maxLength: 255
 
     PerfilUsuarioUpdateDTO:
       type: object
       properties:
         nombre:
           type: string
+          minLength: 1
+          maxLength: 100
         apellido:
           type: string
+          minLength: 1
+          maxLength: 100
         telefono:
           type: string
+          maxLength: 20
         direccionEnvio:
           type: string
+          maxLength: 255
 
     # PRODUCTO
     ProductoDTO:
@@ -751,19 +769,27 @@ components:
           format: int64
         nombre:
           type: string
+          minLength: 1
+          maxLength: 150
         categoria:
           type: string
+          maxLength: 100
         estadoConservacion:
           type: string
+          maxLength: 50
         rareza:
           type: string
+          maxLength: 50
         stock:
           type: integer
+          minimum: 0
         precioReferencia:
           type: number
           format: double
+          minimum: 0
         urlImagen:
           type: string
+          maxLength: 500
 
     # PUBLICACION
     PublicacionDTO:
@@ -804,6 +830,8 @@ components:
           format: int64
         titulo:
           type: string
+          minLength: 1
+          maxLength: 255
         descripcion:
           type: string
         tipoVenta:
@@ -838,8 +866,10 @@ components:
         precioUnitario:
           type: number
           format: double
+          minimum: 0
         cantidadPublicada:
           type: integer
+          minimum: 1
 
     # OFERTA
     OfertaDTO:
@@ -880,6 +910,7 @@ components:
         montoOfertado:
           type: number
           format: double
+          minimum: 0
 
     # MS2 - ORDEN DE COMPRA
 
@@ -991,6 +1022,7 @@ components:
           format: int64
         cantidad:
           type: integer
+          minimum: 1
 
     # MS3 - INTERCAMBIO
 
@@ -1091,6 +1123,7 @@ components:
           format: int64
         cantidad:
           type: integer
+          minimum: 1
         tipoMovimiento:
           $ref: '#/components/schemas/TipoMovimientoIntercambio'
 

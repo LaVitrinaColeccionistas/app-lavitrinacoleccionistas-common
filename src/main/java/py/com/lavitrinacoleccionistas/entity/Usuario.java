@@ -15,14 +15,14 @@ public class Usuario extends AuditableEntity {
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "estado", nullable = false, length = 30)
     private EstadoUsuario estado;
 
     @OneToOne(
@@ -32,4 +32,5 @@ public class Usuario extends AuditableEntity {
             fetch = FetchType.LAZY
     )
     private PerfilUsuario perfil;
+
 }

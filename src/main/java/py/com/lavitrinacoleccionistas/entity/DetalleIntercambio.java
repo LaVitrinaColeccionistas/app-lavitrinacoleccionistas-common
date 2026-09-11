@@ -18,14 +18,14 @@ public class DetalleIntercambio extends BaseEntity {
     @Column(name = "id_producto", nullable = false)
     private Long idProducto;
 
-    @Column(name = "nombre_producto_snapshot", nullable = false)
+    @Column(name = "nombre_producto_snapshot", nullable = false, length = 255)
     private String nombreProductoSnapshot;
 
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_movimiento", nullable = false)
+    @Column(name = "tipo_movimiento", nullable = false, length = 30)
     private TipoMovimientoIntercambio tipoMovimiento;
-}
 
+}

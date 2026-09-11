@@ -3,11 +3,11 @@ package py.com.lavitrinacoleccionistas.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import py.com.lavitrinacoleccionistas.enums.EstadoIntercambio;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import py.com.lavitrinacoleccionistas.enums.EstadoIntercambio;
 
 @Entity
 @Table(name = "intercambio")
@@ -22,7 +22,7 @@ public class Intercambio extends AuditableEntity {
     private Long idUsuarioReceptor;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", nullable = false)
+    @Column(name = "estado", nullable = false, length = 30)
     private EstadoIntercambio estado;
 
     @Column(name = "diferencia_dinero")
@@ -34,7 +34,9 @@ public class Intercambio extends AuditableEntity {
     @OneToMany(
             mappedBy = "intercambio",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
     private List<DetalleIntercambio> detalles = new ArrayList<>();
+
 }

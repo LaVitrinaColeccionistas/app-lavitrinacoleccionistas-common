@@ -1,5 +1,4 @@
 spring:
-  # Carga las variables de entorno desde el archivo .env local
   config:
     import: optional:file:.env[.properties]
   datasource:

@@ -30,4 +30,5 @@ public class TicketSoporte extends BaseEntity {
 
     @Column(name = "fecha_envio", nullable = false)
     private LocalDateTime fechaEnvio;
+
 }
