@@ -4,10 +4,29 @@ info:
   version: 0.0.1-SNAPSHOT
   description: DTOs compartidos generados a partir de las entities del modelo de datos.
 
+tags:
+  - name: Roles
+    description: Gestión de roles de usuario
+  - name: Usuarios
+    description: Registro y administración de usuarios
+  - name: Productos
+    description: Catálogo de productos
+  - name: Publicaciones
+    description: Publicaciones de venta
+  - name: Ofertas
+    description: Ofertas sobre publicaciones
+  - name: Ordenes
+    description: Órdenes de compra (MS2)
+  - name: Intercambios
+    description: Intercambios entre usuarios (MS3)
+  - name: Soporte
+    description: Tickets de soporte
+
 paths:
 
   /roles:
     get:
+      tags: [Roles]
       summary: Listar roles
       operationId: listarRoles
       responses:
@@ -20,6 +39,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/RolDTO'
     post:
+      tags: [Roles]
       summary: Crear rol
       operationId: crearRol
       requestBody:
@@ -37,6 +57,7 @@ paths:
 
   /roles/{id}:
     get:
+      tags: [Roles]
       summary: Obtener rol por id
       operationId: obtenerRol
       parameters:
@@ -53,6 +74,7 @@ paths:
 
   /usuarios:
     get:
+      tags: [Usuarios]
       summary: Listar usuarios
       operationId: listarUsuarios
       responses:
@@ -65,6 +87,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/UsuarioDTO'
     post:
+      tags: [Usuarios]
       summary: Registrar usuario
       operationId: crearUsuario
       requestBody:
@@ -82,6 +105,7 @@ paths:
 
   /usuarios/{id}:
     get:
+      tags: [Usuarios]
       summary: Obtener usuario por id
       operationId: obtenerUsuario
       parameters:
@@ -96,6 +120,7 @@ paths:
         '404':
           description: No encontrado
     put:
+      tags: [Usuarios]
       summary: Actualizar usuario
       operationId: actualizarUsuario
       parameters:
@@ -115,6 +140,7 @@ paths:
 
   /productos:
     get:
+      tags: [Productos]
       summary: Listar productos
       operationId: listarProductos
       responses:
@@ -127,6 +153,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ProductoDTO'
     post:
+      tags: [Productos]
       summary: Crear producto
       operationId: crearProducto
       requestBody:
@@ -144,6 +171,7 @@ paths:
 
   /productos/{id}:
     get:
+      tags: [Productos]
       summary: Obtener producto por id
       operationId: obtenerProducto
       parameters:
@@ -160,6 +188,7 @@ paths:
 
   /publicaciones:
     get:
+      tags: [Publicaciones]
       summary: Listar publicaciones
       operationId: listarPublicaciones
       responses:
@@ -172,6 +201,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/PublicacionDTO'
     post:
+      tags: [Publicaciones]
       summary: Crear publicacion
       operationId: crearPublicacion
       requestBody:
@@ -189,6 +219,7 @@ paths:
 
   /publicaciones/{id}:
     get:
+      tags: [Publicaciones]
       summary: Obtener publicacion por id
       operationId: obtenerPublicacion
       parameters:
@@ -205,6 +236,7 @@ paths:
 
   /publicaciones/{idPublicacion}/detalles:
     get:
+      tags: [Publicaciones]
       summary: Listar detalles de una publicacion
       operationId: listarDetallesPublicacion
       parameters:
@@ -224,6 +256,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/DetallePublicacionDTO'
     post:
+      tags: [Publicaciones]
       summary: Agregar detalle a una publicacion
       operationId: crearDetallePublicacion
       parameters:
@@ -248,6 +281,7 @@ paths:
 
   /ofertas:
     get:
+      tags: [Ofertas]
       summary: Listar ofertas
       operationId: listarOfertas
       responses:
@@ -260,6 +294,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/OfertaDTO'
     post:
+      tags: [Ofertas]
       summary: Crear oferta
       operationId: crearOferta
       requestBody:
@@ -277,6 +312,7 @@ paths:
 
   /ofertas/{id}:
     get:
+      tags: [Ofertas]
       summary: Obtener oferta por id
       operationId: obtenerOferta
       parameters:
@@ -293,6 +329,7 @@ paths:
 
   /ofertas/{id}/aceptar:
     post:
+      tags: [Ofertas]
       summary: Aceptar una oferta
       operationId: aceptarOferta
       parameters:
@@ -309,6 +346,7 @@ paths:
 
   /ofertas/{id}/rechazar:
     post:
+      tags: [Ofertas]
       summary: Rechazar una oferta
       operationId: rechazarOferta
       parameters:
@@ -327,6 +365,7 @@ paths:
 
   /ordenes:
     get:
+      tags: [Ordenes]
       summary: Listar ordenes de compra
       operationId: listarOrdenes
       parameters:
@@ -351,6 +390,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/OrdenCompraDTO'
     post:
+      tags: [Ordenes]
       summary: Crear orden de compra
       operationId: crearOrden
       requestBody:
@@ -368,6 +408,7 @@ paths:
 
   /ordenes/{id}:
     get:
+      tags: [Ordenes]
       summary: Obtener orden de compra por id
       operationId: obtenerOrden
       parameters:
@@ -384,6 +425,7 @@ paths:
 
   /ordenes/{id}/estado:
     patch:
+      tags: [Ordenes]
       summary: Actualizar el estado de una orden
       operationId: actualizarEstadoOrden
       parameters:
@@ -405,6 +447,7 @@ paths:
 
   /ordenes/{idOrden}/detalles:
     get:
+      tags: [Ordenes]
       summary: Listar detalles de una orden de compra
       operationId: listarDetallesOrden
       parameters:
@@ -424,6 +467,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/DetalleOrdenCompraDTO'
     post:
+      tags: [Ordenes]
       summary: Agregar detalle a una orden de compra
       operationId: crearDetalleOrden
       parameters:
@@ -449,6 +493,7 @@ paths:
   # MS3 - INTERCAMBIOS
   /intercambios:
     get:
+      tags: [Intercambios]
       summary: Listar intercambios
       operationId: listarIntercambios
       parameters:
@@ -469,6 +514,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/IntercambioDTO'
     post:
+      tags: [Intercambios]
       summary: Proponer un intercambio
       operationId: crearIntercambio
       requestBody:
@@ -486,6 +532,7 @@ paths:
 
   /intercambios/{id}:
     get:
+      tags: [Intercambios]
       summary: Obtener intercambio por id
       operationId: obtenerIntercambio
       parameters:
@@ -502,6 +549,7 @@ paths:
 
   /intercambios/{id}/estado:
     patch:
+      tags: [Intercambios]
       summary: Actualizar el estado de un intercambio
       operationId: actualizarEstadoIntercambio
       parameters:
@@ -523,6 +571,7 @@ paths:
 
   /intercambios/{idIntercambio}/detalles:
     get:
+      tags: [Intercambios]
       summary: Listar detalles de un intercambio
       operationId: listarDetallesIntercambio
       parameters:
@@ -542,6 +591,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/DetalleIntercambioDTO'
     post:
+      tags: [Intercambios]
       summary: Agregar detalle a un intercambio
       operationId: crearDetalleIntercambio
       parameters:
@@ -565,6 +615,7 @@ paths:
                 $ref: '#/components/schemas/DetalleIntercambioDTO'
   /tickets-soporte:
     post:
+      tags: [Soporte]
       summary: Crear ticket de soporte
       operationId: crearTicketSoporte
       requestBody:
