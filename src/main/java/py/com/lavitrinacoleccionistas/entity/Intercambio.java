@@ -31,6 +31,9 @@ public class Intercambio extends AuditableEntity {
     @Column(name = "usuario_paga_diferencia")
     private Long usuarioPagaDiferencia;
 
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = true;
+
     @OneToMany(
             mappedBy = "intercambio",
             cascade = CascadeType.ALL,

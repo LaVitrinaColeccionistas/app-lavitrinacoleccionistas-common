@@ -15,8 +15,9 @@ public class DetalleIntercambio extends BaseEntity {
     @JoinColumn(name = "id_intercambio", nullable = false)
     private Intercambio intercambio;
 
-    @Column(name = "id_producto", nullable = false)
-    private Long idProducto;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_producto", nullable = false)
+    private Producto producto;
 
     @Column(name = "nombre_producto_snapshot", nullable = false, length = 255)
     private String nombreProductoSnapshot;

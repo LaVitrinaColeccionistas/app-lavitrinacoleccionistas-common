@@ -2,15 +2,15 @@
 
 ## Documentación OpenAPI Generator
 - La estructura de PostgreSQL es gestionada mediante **Liquibase**.
--   https://www.baeldung.com/java-openapi-generator-server
+- https://www.baeldung.com/java-openapi-generator-server
 
 ## Modelo de datos
 Las entidades comparten atributos mediante `BaseEntity` y `AuditableEntity`, aplicando
 herencia, abstracción y encapsulación.
 
-### Usuarios, roles y soporte
+### Usuarios y roles
 
-``` mermaid
+```mermaid
 erDiagram
     ROL {
         BIGINT id PK
@@ -38,26 +38,16 @@ erDiagram
         VARCHAR direccion_envio
     }
 
-    TICKET_SOPORTE {
-        BIGINT id PK
-        VARCHAR nombre
-        VARCHAR email
-        VARCHAR asunto
-        TEXT mensaje
-        TIMESTAMP fecha_envio
-    }
-
     ROL ||--o{ USUARIO : asignado_a
     USUARIO ||--|| PERFIL_USUARIO : tiene
 ```
 
 `Usuario` concentra los datos de acceso, estado y rol, mientras que
-`PerfilUsuario` almacena la información personal. `TicketSoporte`
-representa el formulario de contacto definido para soporte.
+`PerfilUsuario` almacena la información personal.
 
 ### MS1 - Catálogo
 
-``` mermaid
+```mermaid
 erDiagram
     PRODUCTO {
         BIGINT id PK
@@ -116,7 +106,7 @@ productos.
 
 ### MS2 - Órdenes / Compras
 
-``` mermaid
+```mermaid
 erDiagram
     ORDEN_COMPRA {
         BIGINT id PK
@@ -149,9 +139,9 @@ La orden persiste la compra y sus ítems. El pago se mantiene como un
 proceso externo al sistema, de acuerdo con el diseño funcional del
 proyecto.
 
-### MS3 - Intercambios
+### MS3 - Intercambios y Soporte
 
-``` mermaid
+```mermaid
 erDiagram
     INTERCAMBIO {
         BIGINT id PK
@@ -160,6 +150,7 @@ erDiagram
         VARCHAR estado
         DECIMAL diferencia_dinero
         BIGINT usuario_paga_diferencia
+        BOOLEAN activo
         TIMESTAMP fecha_creacion
         TIMESTAMP fecha_actualizacion
     }
@@ -173,9 +164,18 @@ erDiagram
         VARCHAR tipo_movimiento
     }
 
+    TICKET_SOPORTE {
+        BIGINT id PK
+        VARCHAR nombre
+        VARCHAR email
+        VARCHAR asunto
+        TEXT mensaje
+        TIMESTAMP fecha_envio
+    }
+
     INTERCAMBIO ||--o{ DETALLE_INTERCAMBIO : contiene
 ```
 
 Los intercambios registran al proponente, receptor, productos
-involucrados y una posible diferencia de dinero. 
-
+involucrados y una posible diferencia de dinero. `TicketSoporte`
+representa el formulario de contacto definido para soporte.

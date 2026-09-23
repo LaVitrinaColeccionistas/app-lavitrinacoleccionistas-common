@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 013-add-activo-intercambio
+      author: equipo
+      changes:
+        - addColumn:
+            tableName: intercambio
+            columns:
+              - column: {name: activo, type: BOOLEAN, defaultValueBoolean: true, constraints: {nullable: false}}

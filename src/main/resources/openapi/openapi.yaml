@@ -493,7 +493,7 @@ paths:
   # MS3 - INTERCAMBIOS
   /intercambios:
     get:
-      tags: [Intercambios]
+      tags: [ Intercambios ]
       summary: Listar intercambios
       operationId: listarIntercambios
       parameters:
@@ -504,15 +504,39 @@ paths:
           schema:
             type: integer
             format: int64
+
+        - name: estado
+          in: query
+          required: false
+          description: Filtra por estado del intercambio
+          schema:
+            $ref: '#/components/schemas/EstadoIntercambio'
+
+        - name: page
+          in: query
+          required: false
+          description: Número de página, comenzando en 0
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+
+        - name: size
+          in: query
+          required: false
+          description: Cantidad de elementos por página
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
       responses:
         '200':
-          description: OK
+          description: Página de intercambios
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/IntercambioDTO'
+                  $ref: '#/components/schemas/IntercambioPageDTO'
+
     post:
       tags: [Intercambios]
       summary: Proponer un intercambio
@@ -532,7 +556,7 @@ paths:
 
   /intercambios/{id}:
     get:
-      tags: [Intercambios]
+      tags: [ Intercambios ]
       summary: Obtener intercambio por id
       operationId: obtenerIntercambio
       parameters:
@@ -544,6 +568,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IntercambioDTO'
+        '404':
+          description: No encontrado
+    put:
+      tags: [ Intercambios ]
+      summary: Actualizar intercambio
+      operationId: actualizarIntercambio
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntercambioUpdateDTO'
+      responses:
+        '200':
+          description: Intercambio actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntercambioDTO'
+        '404':
+          description: No encontrado
+    delete:
+      tags: [ Intercambios ]
+      summary: Eliminar lógicamente un intercambio
+      operationId: eliminarIntercambio
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '204':
+          description: Intercambio eliminado lógicamente
         '404':
           description: No encontrado
 
@@ -590,32 +646,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DetalleIntercambioDTO'
-    post:
-      tags: [Intercambios]
-      summary: Agregar detalle a un intercambio
-      operationId: crearDetalleIntercambio
+
+  /tickets-soporte:
+    get:
+      tags: [ Soporte ]
+      summary: Listar tickets de soporte
+      operationId: listarTicketsSoporte
       parameters:
-        - name: idIntercambio
-          in: path
-          required: true
+        - name: page
+          in: query
+          required: false
+          description: Número de página, comenzando en 0
           schema:
             type: integer
-            format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DetalleIntercambioCreateDTO'
+            minimum: 0
+            default: 0
+
+        - name: size
+          in: query
+          required: false
+          description: Cantidad de elementos por página
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
       responses:
-        '201':
-          description: Detalle creado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DetalleIntercambioDTO'
-  /tickets-soporte:
+        '200':
+          description: OK
+
     post:
-      tags: [Soporte]
+      tags: [ Soporte ]
       summary: Crear ticket de soporte
       operationId: crearTicketSoporte
       requestBody:
@@ -1105,6 +1165,8 @@ components:
         usuarioPagaDiferencia:
           type: integer
           format: int64
+        activo:
+          type: boolean
         detalles:
           type: array
           items:
@@ -1115,6 +1177,23 @@ components:
         fechaActualizacion:
           type: string
           format: date-time
+
+    IntercambioPageDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntercambioDTO'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
 
     IntercambioCreateDTO:
       type: object
@@ -1132,6 +1211,35 @@ components:
         usuarioPagaDiferencia:
           type: integer
           format: int64
+        detalles:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/DetalleIntercambioCreateDTO'
+
+    IntercambioUpdateDTO:
+      type: object
+      required:
+        - idUsuarioProponente
+        - idUsuarioReceptor
+        - detalles
+      properties:
+        idUsuarioProponente:
+          type: integer
+          format: int64
+
+        idUsuarioReceptor:
+          type: integer
+          format: int64
+
+        diferenciaDinero:
+          type: number
+          format: double
+
+        usuarioPagaDiferencia:
+          type: integer
+          format: int64
+
         detalles:
           type: array
           minItems: 1
@@ -1204,9 +1312,18 @@ components:
       properties:
         nombre:
           type: string
+          minLength: 1
+          maxLength: 100
         email:
           type: string
+          format: email
+          minLength: 1
+          maxLength: 150
         asunto:
           type: string
+          minLength: 1
+          maxLength: 200
         mensaje:
           type: string
+          minLength: 1
+          maxLength: 2000

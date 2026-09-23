@@ -23,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/changes/011-create-detalle-intercambio.yaml
   - include:
       file: db/changelog/changes/012-create-ticket-soporte.yaml
+  - include:
+      file: db/changelog/changes/013-intercambio-activo.yaml
