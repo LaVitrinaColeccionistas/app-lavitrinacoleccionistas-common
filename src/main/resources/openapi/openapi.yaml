@@ -141,17 +141,40 @@ paths:
   /productos:
     get:
       tags: [Productos]
-      summary: Listar productos
+      summary: Listar y buscar productos
       operationId: listarProductos
+      parameters:
+        - name: nombre
+          in: query
+          required: false
+          description: Búsqueda parcial por nombre
+          schema:
+            type: string
+        - name: categoria
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: rareza
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: idVendedor
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/PageQuery'
+        - $ref: '#/components/parameters/SizeQuery'
       responses:
         '200':
-          description: OK
+          description: OK, pagina de productos
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductoDTO'
+                $ref: '#/components/schemas/ProductoPageDTO'
     post:
       tags: [Productos]
       summary: Crear producto
@@ -185,21 +208,77 @@ paths:
                 $ref: '#/components/schemas/ProductoDTO'
         '404':
           description: No encontrado
+    put:
+      tags: [Productos]
+      summary: Actualizar producto
+      operationId: actualizarProducto
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoUpdateDTO'
+      responses:
+        '200':
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductoDTO'
+        '404':
+          description: No encontrado
+    delete:
+      tags: [Productos]
+      summary: Eliminar lógicamente un producto
+      operationId: eliminarProducto
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '204':
+          description: Eliminado lógicamente
+        '404':
+          description: No encontrado
+
 
   /publicaciones:
     get:
       tags: [Publicaciones]
-      summary: Listar publicaciones
+      summary: Listar y buscar publicaciones (paginado)
       operationId: listarPublicaciones
+      parameters:
+        - name: titulo
+          in: query
+          required: false
+          description: Búsqueda parcial por título
+          schema:
+            type: string
+        - name: idVendedor
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: estadoPublicacion
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/EstadoPublicacion'
+        - name: tipoVenta
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/TipoVenta'
+        - $ref: '#/components/parameters/PageQuery'
+        - $ref: '#/components/parameters/SizeQuery'
       responses:
         '200':
-          description: OK
+          description: Página de publicaciones
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PublicacionDTO'
+                $ref: '#/components/schemas/PublicacionPageDTO'
     post:
       tags: [Publicaciones]
       summary: Crear publicacion
@@ -233,11 +312,70 @@ paths:
                 $ref: '#/components/schemas/PublicacionDTO'
         '404':
           description: No encontrado
+    put:
+      tags: [Publicaciones]
+      summary: Actualizar publicacion
+      operationId: actualizarPublicacion
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicacionUpdateDTO'
+      responses:
+        '200':
+          description: Publicacion actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicacionDTO'
+        '404':
+          description: No encontrado
+    delete:
+      tags: [Publicaciones]
+      summary: Eliminar lógicamente una publicacion
+      description: Borrado lógico. Marca la publicación como CANCELADA; no elimina el registro.
+      operationId: eliminarPublicacion
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '204':
+          description: Eliminado lógicamente
+        '404':
+          description: No encontrado
+
+  /publicaciones/{id}/estado:
+    patch:
+      tags: [Publicaciones]
+      summary: Actualizar el estado de una publicacion
+      description: No permite cambiar el estado de una publicación CANCELADA (eliminada lógicamente); responde 409.
+      operationId: actualizarEstadoPublicacion
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicacionEstadoUpdateDTO'
+      responses:
+        '200':
+          description: Estado actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicacionDTO'
+        '404':
+          description: No encontrado
+        '409':
+          description: La publicación está CANCELADA y no admite cambios de estado
 
   /publicaciones/{idPublicacion}/detalles:
     get:
       tags: [Publicaciones]
-      summary: Listar detalles de una publicacion
+      summary: Listar detalles de una publicacion (paginado)
       operationId: listarDetallesPublicacion
       parameters:
         - name: idPublicacion
@@ -246,15 +384,15 @@ paths:
           schema:
             type: integer
             format: int64
+        - $ref: '#/components/parameters/PageQuery'
+        - $ref: '#/components/parameters/SizeQuery'
       responses:
         '200':
-          description: OK
+          description: Página de detalles
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DetallePublicacionDTO'
+                $ref: '#/components/schemas/DetallePublicacionPageDTO'
     post:
       tags: [Publicaciones]
       summary: Agregar detalle a una publicacion
@@ -279,20 +417,73 @@ paths:
               schema:
                 $ref: '#/components/schemas/DetallePublicacionDTO'
 
-  /ofertas:
-    get:
-      tags: [Ofertas]
-      summary: Listar ofertas
-      operationId: listarOfertas
+  /publicaciones/{idPublicacion}/detalles/{idDetalle}:
+    put:
+      tags: [Publicaciones]
+      summary: Actualizar detalle de una publicacion
+      operationId: actualizarDetallePublicacion
+      parameters:
+        - name: idPublicacion
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idDetalle
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetallePublicacionUpdateDTO'
       responses:
         '200':
-          description: OK
+          description: Detalle actualizado
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OfertaDTO'
+                $ref: '#/components/schemas/DetallePublicacionDTO'
+        '404':
+          description: No encontrado
+
+
+  /ofertas:
+    get:
+      tags: [Ofertas]
+      summary: Listar y buscar ofertas (paginado)
+      operationId: listarOfertas
+      parameters:
+        - name: idPublicacion
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: idComprador
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: estadoOferta
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/EstadoOferta'
+        - $ref: '#/components/parameters/PageQuery'
+        - $ref: '#/components/parameters/SizeQuery'
+      responses:
+        '200':
+          description: Página de ofertas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfertaPageDTO'
     post:
       tags: [Ofertas]
       summary: Crear oferta
@@ -324,6 +515,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfertaDTO'
+        '404':
+          description: No encontrado
+    put:
+      tags: [Ofertas]
+      summary: Actualizar oferta
+      operationId: actualizarOferta
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfertaUpdateDTO'
+      responses:
+        '200':
+          description: Oferta actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfertaDTO'
+        '404':
+          description: No encontrado
+    delete:
+      tags: [Ofertas]
+      summary: Eliminar lógicamente una oferta
+      operationId: eliminarOferta
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '204':
+          description: Eliminado lógicamente
         '404':
           description: No encontrado
 
@@ -360,7 +583,7 @@ paths:
                 $ref: '#/components/schemas/OfertaDTO'
         '404':
           description: No encontrado
-
+          
   # MS2 - ORDENES DE COMPRA
 
   /ordenes:
@@ -703,6 +926,26 @@ components:
         type: integer
         format: int64
 
+    PageQuery:
+      name: page
+      in: query
+      required: false
+      description: Número de página, comenzando en 0
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+
+    SizeQuery:
+      name: size
+      in: query
+      required: false
+      description: Cantidad de elementos por página
+      schema:
+        type: integer
+        minimum: 1
+        default: 20
+
   schemas:
 
     # ROL
@@ -837,6 +1080,7 @@ components:
           type: string
           maxLength: 255
 
+
     # PRODUCTO
     ProductoDTO:
       type: object
@@ -902,7 +1146,59 @@ components:
           type: string
           maxLength: 500
 
+    ProductoUpdateDTO:
+      type: object
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 150
+        categoria:
+          type: string
+          maxLength: 100
+        estadoConservacion:
+          type: string
+          maxLength: 50
+        rareza:
+          type: string
+          maxLength: 50
+        stock:
+          type: integer
+          minimum: 0
+        precioReferencia:
+          type: number
+          format: double
+          minimum: 0
+        urlImagen:
+          type: string
+          maxLength: 500
+
+    ProductoPageDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductoDTO'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+
     # PUBLICACION
+    EstadoPublicacion:
+      type: string
+      enum: [ACTIVA, PAUSADA, VENDIDA, CANCELADA]
+
+    TipoVenta:
+      type: string
+      enum: [PRECIO_FIJO, OFERTA_LIBRE]
+
     PublicacionDTO:
       type: object
       properties:
@@ -917,11 +1213,9 @@ components:
         descripcion:
           type: string
         tipoVenta:
-          type: string
-          enum: [PRECIO_FIJO, OFERTA_LIBRE]
+          $ref: '#/components/schemas/TipoVenta'
         estadoPublicacion:
-          type: string
-          enum: [ACTIVA, PAUSADA, VENDIDA, CANCELADA]
+          $ref: '#/components/schemas/EstadoPublicacion'
         fechaPublicacion:
           type: string
           format: date-time
@@ -946,8 +1240,43 @@ components:
         descripcion:
           type: string
         tipoVenta:
+          $ref: '#/components/schemas/TipoVenta'
+
+    PublicacionUpdateDTO:
+      type: object
+      properties:
+        titulo:
           type: string
-          enum: [PRECIO_FIJO, OFERTA_LIBRE]
+          minLength: 1
+          maxLength: 255
+        descripcion:
+          type: string
+        tipoVenta:
+          $ref: '#/components/schemas/TipoVenta'
+
+    PublicacionEstadoUpdateDTO:
+      type: object
+      required: [estadoPublicacion]
+      properties:
+        estadoPublicacion:
+          $ref: '#/components/schemas/EstadoPublicacion'
+
+    PublicacionPageDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicacionDTO'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
 
     # DETALLE PUBLICACION
     DetallePublicacionDTO:
@@ -982,7 +1311,39 @@ components:
           type: integer
           minimum: 1
 
+    DetallePublicacionUpdateDTO:
+      type: object
+      properties:
+        precioUnitario:
+          type: number
+          format: double
+          minimum: 0
+        cantidadPublicada:
+          type: integer
+          minimum: 1
+
+    DetallePublicacionPageDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetallePublicacionDTO'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+
     # OFERTA
+    EstadoOferta:
+      type: string
+      enum: [PENDIENTE, ACEPTADA, RECHAZADA, EXPIRADA]
+
     OfertaDTO:
       type: object
       properties:
@@ -999,8 +1360,7 @@ components:
           type: number
           format: double
         estadoOferta:
-          type: string
-          enum: [PENDIENTE, ACEPTADA, RECHAZADA, EXPIRADA]
+          $ref: '#/components/schemas/EstadoOferta'
         fechaOferta:
           type: string
           format: date-time
@@ -1023,6 +1383,30 @@ components:
           format: double
           minimum: 0
 
+    OfertaUpdateDTO:
+      type: object
+      properties:
+        montoOfertado:
+          type: number
+          format: double
+          minimum: 0
+
+    OfertaPageDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OfertaDTO'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
     # MS2 - ORDEN DE COMPRA
 
     EstadoOrden:
