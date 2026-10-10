@@ -175,6 +175,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductoPageDTO'
+        '400':
+          description: Parametros de busqueda o paginacion invalidos
+        '500':
+          description: Error interno del servidor
+
     post:
       tags: [Productos]
       summary: Crear producto
@@ -191,6 +196,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductoDTO'
+        '400':
+          description: Datos invalidos, idVendedor, nombre y precioReferencia son obligatorios
+        '500':
+          description: Error interno del servidor
 
   /productos/{id}:
     get:
@@ -207,7 +216,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProductoDTO'
         '404':
-          description: No encontrado
+          description: Producto no encontrado o inactivo
+        '500':
+          description: Error interno del servido
+
     put:
       tags: [Productos]
       summary: Actualizar producto
@@ -227,8 +239,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductoDTO'
+        '400':
+          description: Datos invalidos
         '404':
-          description: No encontrado
+          description: Producto no encontrado o inactivo
+        '500':
+          description: Error interno del servidor
+
     delete:
       tags: [Productos]
       summary: Eliminar lógicamente un producto
@@ -237,9 +254,11 @@ paths:
         - $ref: '#/components/parameters/IdPath'
       responses:
         '204':
-          description: Eliminado lógicamente
+          description: Producto eliminado lógicamente
         '404':
-          description: No encontrado
+          description: Producto no encontrado o inactivo
+        '500':
+          description: Error interno del servidor
 
 
   /publicaciones:
@@ -282,8 +301,10 @@ paths:
     post:
       tags: [Publicaciones]
       summary: Crear publicacion
+      description: Crea la cabecera y los detalles
       operationId: crearPublicacion
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -295,6 +316,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublicacionDTO'
+        '400':
+          description: Datos invalidos
+        '404':
+          description: Algun producto no existe o esta inactivo
+        '409':
+          description: Producto repetido, de otro vendedor o con stock insuficiente
+        '500':
+          description: Error interno del servidor
 
   /publicaciones/{id}:
     get:
@@ -314,7 +343,8 @@ paths:
           description: No encontrado
     put:
       tags: [Publicaciones]
-      summary: Actualizar publicacion
+      summary: Actualizar publicacion y sus detalles
+      description: Actualiza la cabecera y reemplaza los detalles en una sola transacción.
       operationId: actualizarPublicacion
       parameters:
         - $ref: '#/components/parameters/IdPath'
@@ -331,8 +361,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublicacionDTO'
+        '400':
+          description: Datos invalidos
         '404':
-          description: No encontrado
+          description: Publicacion o producto no encontrado
+        '409':
+          description: Producto repetido, de otro vendedor o con stock insuficiente
+        '500':
+          description: Error interno del servidor
+
     delete:
       tags: [Publicaciones]
       summary: Eliminar lógicamente una publicacion
@@ -367,10 +404,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublicacionDTO'
+        '400':
+          description: Estado invalido
         '404':
           description: No encontrado
         '409':
           description: La publicación está CANCELADA y no admite cambios de estado
+        '500':
+          description: Error interno del servidor
+
 
   /publicaciones/{idPublicacion}/detalles:
     get:
@@ -393,64 +435,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetallePublicacionPageDTO'
-    post:
-      tags: [Publicaciones]
-      summary: Agregar detalle a una publicacion
-      operationId: crearDetallePublicacion
-      parameters:
-        - name: idPublicacion
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DetallePublicacionCreateDTO'
-      responses:
-        '201':
-          description: Detalle creado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DetallePublicacionDTO'
-
-  /publicaciones/{idPublicacion}/detalles/{idDetalle}:
-    put:
-      tags: [Publicaciones]
-      summary: Actualizar detalle de una publicacion
-      operationId: actualizarDetallePublicacion
-      parameters:
-        - name: idPublicacion
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - name: idDetalle
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DetallePublicacionUpdateDTO'
-      responses:
-        '200':
-          description: Detalle actualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DetallePublicacionDTO'
-        '404':
-          description: No encontrado
-
 
   /ofertas:
     get:
@@ -484,6 +468,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfertaPageDTO'
+        '400':
+          description: Parametros de busqueda o paginacion invalidos
+        '500':
+          description: Error interno del servidor
+
     post:
       tags: [Ofertas]
       summary: Crear oferta
@@ -500,6 +489,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfertaDTO'
+        '400':
+          description: Datos invalidos, idPublicacion, idComprador y montoOfertado son obligatorios
+        '404':
+          description: La publicacion no existe o esta cancelada
+        '409':
+          description: La publicacion no esta activa o el vendedor ofertando en su propia publicacion
+        '500':
+          description: Error interno del servidor
 
   /ofertas/{id}:
     get:
@@ -516,7 +513,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/OfertaDTO'
         '404':
-          description: No encontrado
+          description: Oferta no encontrada
+        '500':
+          description: Error interno del servidor
+
     put:
       tags: [Ofertas]
       summary: Actualizar oferta
@@ -536,8 +536,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfertaDTO'
+        '400':
+          description: Datos invalidos
         '404':
-          description: No encontrado
+          description: Oferta no encontrada
+        '409':
+          description: La oferta no esta PENDIENTE
+        '500':
+          description: Error interno del servidor
+
     delete:
       tags: [Ofertas]
       summary: Eliminar lógicamente una oferta
@@ -565,7 +572,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/OfertaDTO'
         '404':
-          description: No encontrado
+          description: Oferta no encontrada
+        '409':
+          description: La oferta no esta PENDIENTE
+        '500':
+          description: Error interno del servidor
+
 
   /ofertas/{id}/rechazar:
     post:
@@ -582,7 +594,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/OfertaDTO'
         '404':
-          description: No encontrado
+          description: Oferta no encontrada
+        '409':
+          description: La oferta no esta PENDIENTE
+        '500':
+          description: Error interno del servidor
           
   # MS2 - ORDENES DE COMPRA
 
@@ -1219,6 +1235,10 @@ components:
         fechaPublicacion:
           type: string
           format: date-time
+        detalles:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetallePublicacionDTO'
         fechaCreacion:
           type: string
           format: date-time
@@ -1228,7 +1248,7 @@ components:
 
     PublicacionCreateDTO:
       type: object
-      required: [idVendedor, titulo, tipoVenta]
+      required: [idVendedor, titulo, tipoVenta, detalles]
       properties:
         idVendedor:
           type: integer
@@ -1241,6 +1261,11 @@ components:
           type: string
         tipoVenta:
           $ref: '#/components/schemas/TipoVenta'
+        detalles:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/DetallePublicacionCreateDTO'
 
     PublicacionUpdateDTO:
       type: object
@@ -1253,6 +1278,11 @@ components:
           type: string
         tipoVenta:
           $ref: '#/components/schemas/TipoVenta'
+        detalles:
+          type: array
+          description: Si se omite, los detalles no cambian. Una lista vacia los elimina todos.
+          items:
+            $ref: '#/components/schemas/DetallePublicacionCreateDTO'
 
     PublicacionEstadoUpdateDTO:
       type: object
@@ -1303,17 +1333,6 @@ components:
         idProducto:
           type: integer
           format: int64
-        precioUnitario:
-          type: number
-          format: double
-          minimum: 0
-        cantidadPublicada:
-          type: integer
-          minimum: 1
-
-    DetallePublicacionUpdateDTO:
-      type: object
-      properties:
         precioUnitario:
           type: number
           format: double
