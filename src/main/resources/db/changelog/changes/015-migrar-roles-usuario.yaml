@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 015-copiar-id-rol-a-usuario-rol
+      author: equipo
+      changes:
+        - sql:
+            sql: >
+              INSERT INTO usuario_rol (id_usuario, id_rol)
+              SELECT id, id_rol FROM usuario WHERE id_rol IS NOT NULL
+      rollback:
+        - sql:
+            sql: DELETE FROM usuario_rol
+  - changeSet:
+      id: 015-drop-usuario-id-rol
+      author: equipo
+      changes:
+        - dropColumn:
+            tableName: usuario
+            columnName: id_rol
+      rollback:
+        - addColumn:
+            tableName: usuario
+            columns:
+              - column:
+                  name: id_rol
+                  type: BIGINT

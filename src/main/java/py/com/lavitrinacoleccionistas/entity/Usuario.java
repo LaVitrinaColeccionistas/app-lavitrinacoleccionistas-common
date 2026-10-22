@@ -5,15 +5,20 @@ import lombok.Getter;
 import lombok.Setter;
 import py.com.lavitrinacoleccionistas.enums.EstadoUsuario;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "usuario")
 @Getter
 @Setter
 public class Usuario extends AuditableEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rol", nullable = false)
-    private Rol rol;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "usuario_rol",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_rol"))
+    private Set<Rol> roles = new HashSet<>();
 
     @Column(name = "email", nullable = false, unique = true, length = 150)
     private String email;

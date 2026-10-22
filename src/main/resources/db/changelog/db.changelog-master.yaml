@@ -25,3 +25,9 @@ databaseChangeLog:
       file: db/changelog/changes/012-create-ticket-soporte.yaml
   - include:
       file: db/changelog/changes/013-intercambio-activo.yaml
+  - include:
+      file: db/changelog/changes/014-create-usuario-rol.yaml
+  - include:
+      file: db/changelog/changes/015-migrar-roles-usuario.yaml
+  - include:
+      file: db/changelog/changes/016-seed-roles-admin.yaml

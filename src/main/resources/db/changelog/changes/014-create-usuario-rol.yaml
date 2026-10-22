@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 014-create-usuario-rol
+      author: equipo
+      changes:
+        - createTable:
+            tableName: usuario_rol
+            columns:
+              - column:
+                  name: id_usuario
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_usuario_rol_usuario
+                    references: usuario(id)
+              - column:
+                  name: id_rol
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_usuario_rol_rol
+                    references: rol(id)
+        - addPrimaryKey:
+            tableName: usuario_rol
+            columnNames: id_usuario, id_rol
+            constraintName: pk_usuario_rol

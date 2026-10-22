@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 016-seed-roles
+      author: equipo
+      changes:
+        - sql:
+            sql: >
+              INSERT INTO rol (nombre, fecha_creacion) VALUES
+              ('COMPRADOR', now()), ('VENDEDOR', now()), ('ADMIN', now())
+              ON CONFLICT (nombre) DO NOTHING
+  - changeSet:
+      id: 016-seed-admin
+      author: equipo
+      changes:
+        - sql:
+            sql: >
+              INSERT INTO usuario (email, password, estado, fecha_creacion)
+              VALUES ('admin@lvc.com', '$2b$10$pdyNkjMEj6/lCQTQh9Wgdu1pkAMOWCrdfNWLA4loOg6EJ6v2TWFlK', 'ACTIVO', now())
+              ON CONFLICT (email) DO NOTHING
+        - sql:
+            sql: >
+              INSERT INTO usuario_rol (id_usuario, id_rol)
+              SELECT u.id, r.id FROM usuario u, rol r
+              WHERE u.email = 'admin@lvc.com' AND r.nombre = 'ADMIN'
+              ON CONFLICT DO NOTHING
