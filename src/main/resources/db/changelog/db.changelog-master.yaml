@@ -31,3 +31,5 @@ databaseChangeLog:
       file: db/changelog/changes/015-migrar-roles-usuario.yaml
   - include:
       file: db/changelog/changes/016-seed-roles-admin.yaml
+  - include:
+      file: db/changelog/changes/017-create-reclamo.yaml
