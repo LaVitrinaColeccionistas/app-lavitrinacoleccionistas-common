@@ -1889,6 +1889,12 @@ components:
         idUsuarioReceptor:
           type: integer
           format: int64
+        idPublicacion:
+          type: integer
+          format: int64
+        tituloPublicacionSnapshot:
+          type: string
+          maxLength: 255
         estado:
           $ref: '#/components/schemas/EstadoIntercambio'
         diferenciaDinero:
@@ -1937,6 +1943,12 @@ components:
         idUsuarioReceptor:
           type: integer
           format: int64
+        idPublicacion:
+          type: integer
+          format: int64
+        tituloPublicacionSnapshot:
+          type: string
+          maxLength: 255
         diferenciaDinero:
           type: number
           format: double

@@ -33,3 +33,5 @@ databaseChangeLog:
       file: db/changelog/changes/016-seed-roles-admin.yaml
   - include:
       file: db/changelog/changes/017-create-reclamo.yaml
+  - include:
+      file: db/changelog/changes/018-intercambio-publicacion.yaml

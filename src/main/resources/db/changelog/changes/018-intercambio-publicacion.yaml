@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 018-add-publicacion-intercambio
+      author: equipo
+      changes:
+        - addColumn:
+            tableName: intercambio
+            columns:
+              - column:
+                  name: id_publicacion
+                  type: BIGINT
+              - column:
+                  name: titulo_publicacion_snapshot
+                  type: VARCHAR(255)

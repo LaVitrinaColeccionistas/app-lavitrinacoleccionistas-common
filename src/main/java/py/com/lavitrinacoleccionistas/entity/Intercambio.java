@@ -21,6 +21,12 @@ public class Intercambio extends AuditableEntity {
     @Column(name = "id_usuario_receptor", nullable = false)
     private Long idUsuarioReceptor;
 
+    @Column(name = "id_publicacion")
+    private Long idPublicacion;
+
+    @Column(name = "titulo_publicacion_snapshot", length = 255)
+    private String tituloPublicacionSnapshot;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false, length = 30)
     private EstadoIntercambio estado;
