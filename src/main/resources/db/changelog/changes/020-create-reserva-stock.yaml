@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 020-create-reserva-stock
+      author: lavitrina
+      changes:
+        - createTable:
+            tableName: reserva_stock
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_orden
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_detalle_publicacion
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_reserva_stock_detalle_publicacion
+                    references: detalle_publicacion(id)
+              - column:
+                  name: cantidad
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: estado_reserva
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fecha_expiracion
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fecha_creacion
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fecha_actualizacion
+                  type: TIMESTAMP
+        - addUniqueConstraint:
+            tableName: reserva_stock
+            columnNames: id_orden, id_detalle_publicacion
+            constraintName: uk_reserva_stock_orden_detalle
+        - createIndex:
+            tableName: reserva_stock
+            indexName: idx_reserva_stock_estado_expiracion
+            columns:
+              - column:
+                  name: estado_reserva
+              - column:
+                  name: fecha_expiracion

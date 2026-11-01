@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 019-publicacion-estado-eliminada
+      author: lavitrina
+      changes:
+        - update:
+            tableName: publicacion
+            columns:
+              - column:
+                  name: estado_publicacion
+                  value: ELIMINADA
+            where: estado_publicacion = 'CANCELADA'

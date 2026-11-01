@@ -4,5 +4,5 @@ public enum EstadoPublicacion {
     ACTIVA,
     PAUSADA,
     VENDIDA,
-    CANCELADA
+    ELIMINADA
 }

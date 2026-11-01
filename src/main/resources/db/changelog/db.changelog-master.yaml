@@ -35,3 +35,7 @@ databaseChangeLog:
       file: db/changelog/changes/017-create-reclamo.yaml
   - include:
       file: db/changelog/changes/018-intercambio-publicacion.yaml
+  - include:
+      file: db/changelog/changes/019-publicacion-estado-eliminada.yaml
+  - include:
+      file: db/changelog/changes/020-create-reserva-stock.yaml
