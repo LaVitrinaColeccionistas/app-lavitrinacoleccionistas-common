@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 022-idx-reserva-stock-detalle
+      author: lavitrina
+      comment: Acelera el calculo de cantidadReservada (@Formula en DetallePublicacion)
+      changes:
+        - createIndex:
+            tableName: reserva_stock
+            indexName: idx_reserva_stock_detalle_estado
+            columns:
+              - column: { name: id_detalle_publicacion }
+              - column: { name: estado_reserva }

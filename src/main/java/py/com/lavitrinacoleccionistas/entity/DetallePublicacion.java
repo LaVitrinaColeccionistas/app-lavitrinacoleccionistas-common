@@ -3,6 +3,7 @@ package py.com.lavitrinacoleccionistas.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 
@@ -25,4 +26,8 @@ public class DetallePublicacion extends BaseEntity {
 
     @Column(name = "cantidad_publicada", nullable = false)
     private Integer cantidadPublicada;
+
+    @Formula("(select coalesce(sum(r.cantidad), 0) from reserva_stock r "
+            + "where r.id_detalle_publicacion = id and r.estado_reserva = 'RESERVADA')")
+    private Integer cantidadReservada;
 }

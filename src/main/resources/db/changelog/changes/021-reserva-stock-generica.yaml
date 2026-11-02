@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 021-reserva-stock-generica
+      author: lavitrina
+      comment: Reserva generica por (tipo_origen, id_origen) para ordenes, ofertas e intercambios
+      changes:
+        - addColumn:
+            tableName: reserva_stock
+            columns:
+              - column: { name: tipo_origen, type: VARCHAR(20) }
+              - column: { name: id_origen, type: BIGINT }
+              - column: { name: id_producto, type: BIGINT }
+              - column: { name: id_usuario_destino, type: BIGINT }
+
+        # Las reservas existentes son todas de ordenes
+        - sql:
+            sql: >-
+              UPDATE reserva_stock r
+              SET tipo_origen = 'ORDEN',
+                  id_origen   = r.id_orden,
+                  id_producto = d.id_producto
+              FROM detalle_publicacion d
+              WHERE d.id = r.id_detalle_publicacion
+
+        - addNotNullConstraint: { tableName: reserva_stock, columnName: tipo_origen, columnDataType: VARCHAR(20) }
+        - addNotNullConstraint: { tableName: reserva_stock, columnName: id_origen, columnDataType: BIGINT }
+        - addNotNullConstraint: { tableName: reserva_stock, columnName: id_producto, columnDataType: BIGINT }
+
+        - addForeignKeyConstraint:
+            baseTableName: reserva_stock
+            baseColumnNames: id_producto
+            referencedTableName: producto
+            referencedColumnNames: id
+            constraintName: fk_reserva_stock_producto
+
+        - dropUniqueConstraint:
+            tableName: reserva_stock
+            constraintName: uk_reserva_stock_orden_detalle
+
+        # null = reserva de stock libre
+        - dropNotNullConstraint: { tableName: reserva_stock, columnName: id_detalle_publicacion, columnDataType: BIGINT }
+
+        - dropColumn: { tableName: reserva_stock, columnName: id_orden }
+
+        - addUniqueConstraint:
+            tableName: reserva_stock
+            columnNames: tipo_origen, id_origen, id_producto, id_detalle_publicacion
+            constraintName: uk_reserva_stock_origen_item
+
+        - createIndex:
+            tableName: reserva_stock
+            indexName: idx_reserva_stock_origen
+            columns:
+              - column: { name: tipo_origen }
+              - column: { name: id_origen }
+
+        - createIndex:
+            tableName: reserva_stock
+            indexName: idx_reserva_stock_producto_estado
+            columns:
+              - column: { name: id_producto }
+              - column: { name: estado_reserva }

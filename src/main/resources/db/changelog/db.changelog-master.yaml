@@ -39,3 +39,7 @@ databaseChangeLog:
       file: db/changelog/changes/019-publicacion-estado-eliminada.yaml
   - include:
       file: db/changelog/changes/020-create-reserva-stock.yaml
+  - include:
+      file: db/changelog/changes/021-reserva-stock-generica.yaml
+  - include:
+      file: db/changelog/changes/022-idx-reserva-stock-detalle.yaml
