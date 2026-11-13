@@ -23,6 +23,11 @@ public class DetalleOrdenCompra extends BaseEntity {
     @Column(name = "id_publicacion", nullable = false)
     private Long idPublicacion;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_publicacion", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Publicacion publicacion;
+
     @Column(name = "nombre_producto_snapshot", nullable = false, length = 255)
     private String nombreProductoSnapshot;
 

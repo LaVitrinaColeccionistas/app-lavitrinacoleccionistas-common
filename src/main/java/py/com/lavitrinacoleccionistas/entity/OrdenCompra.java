@@ -20,6 +20,9 @@ public class OrdenCompra extends AuditableEntity {
     @Column(name = "id_comprador", nullable = false)
     private Long idComprador;
 
+    @Column(name = "id_oferta")
+    private Long idOferta;
+
     @Column(name = "fecha_orden", nullable = false)
     private LocalDateTime fechaOrden;
 

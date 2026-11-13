@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 023-create-valoracion
+      author: equipo
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: valoracion
+      changes:
+        - createTable:
+            tableName: valoracion
+            columns:
+              - column: {name: id, type: BIGINT, autoIncrement: true, constraints: {primaryKey: true, nullable: false}}
+              - column: {name: id_orden, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_valoracion_orden, references: orden_compra(id)}}
+              - column: {name: id_publicacion, type: BIGINT, constraints: {nullable: false}}
+              - column: {name: id_comprador, type: BIGINT, constraints: {nullable: false, foreignKeyName: fk_valoracion_comprador, references: usuario(id)}}
+              - column: {name: puntuacion, type: INT, constraints: {nullable: false}}
+              - column: {name: comentario, type: VARCHAR(500)}
+              - column: {name: activo, type: BOOLEAN, defaultValueBoolean: true, constraints: {nullable: false}}
+              - column: {name: fecha_creacion, type: TIMESTAMP, constraints: {nullable: false}}
+              - column: {name: fecha_actualizacion, type: TIMESTAMP}
+        - addUniqueConstraint:
+            tableName: valoracion
+            columnNames: id_orden, id_publicacion
+            constraintName: uq_valoracion_orden_publicacion
+        - createIndex:
+            tableName: valoracion
+            indexName: idx_valoracion_publicacion
+            columns:
+              - column: {name: id_publicacion}

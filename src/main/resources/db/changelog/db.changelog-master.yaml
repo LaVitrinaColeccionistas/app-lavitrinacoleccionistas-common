@@ -43,3 +43,7 @@ databaseChangeLog:
       file: db/changelog/changes/021-reserva-stock-generica.yaml
   - include:
       file: db/changelog/changes/022-idx-reserva-stock-detalle.yaml
+  - include:
+      file: db/changelog/changes/023-create-valoracion.yaml
+  - include:
+      file: db/changelog/changes/024-orden-compra-id-oferta.yaml

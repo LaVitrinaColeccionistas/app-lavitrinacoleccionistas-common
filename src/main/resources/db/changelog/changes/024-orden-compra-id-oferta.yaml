@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 024-orden-compra-id-oferta
+      author: equipo
+      comment: Oferta aceptada que origino la orden (conserva el precio ofertado al editarla)
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: orden_compra
+                columnName: id_oferta
+      changes:
+        - addColumn:
+            tableName: orden_compra
+            columns:
+              - column:
+                  name: id_oferta
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_orden_compra_oferta
+                    references: oferta(id)
