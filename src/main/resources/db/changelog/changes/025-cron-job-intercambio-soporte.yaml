@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 025-cron-job-intercambio-soporte
+      author: equipo
+      comment: >
+        Marcas para el cron job de mails para intercambios y soporte. Las filas existentes quedan en TRUE
+        (ya se consideran notificadas) para no mandar mails viejos de golpe;
+        luego el default pasa a FALSE para las filas nuevas.
+      changes:
+        - addColumn:
+            tableName: ticket_soporte
+            columns:
+              - column: {name: notificado_admin, type: BOOLEAN, defaultValueBoolean: true, constraints: {nullable: false}}
+        - addDefaultValue:
+            tableName: ticket_soporte
+            columnName: notificado_admin
+            defaultValueBoolean: false
+        - addColumn:
+            tableName: intercambio
+            columns:
+              - column: {name: notificacion_aceptado_enviada, type: BOOLEAN, defaultValueBoolean: true, constraints: {nullable: false}}
+        - addDefaultValue:
+            tableName: intercambio
+            columnName: notificacion_aceptado_enviada
+            defaultValueBoolean: false

@@ -40,6 +40,9 @@ public class Intercambio extends AuditableEntity {
     @Column(name = "activo", nullable = false)
     private Boolean activo = true;
 
+    @Column(name = "notificacion_aceptado_enviada", nullable = false)
+    private Boolean notificacionAceptadoEnviada = false;
+
     @OneToMany(
             mappedBy = "intercambio",
             cascade = CascadeType.ALL,

@@ -31,4 +31,7 @@ public class TicketSoporte extends BaseEntity {
     @Column(name = "fecha_envio", nullable = false)
     private LocalDateTime fechaEnvio;
 
+    @Column(name = "notificado_admin", nullable = false)
+    private Boolean notificadoAdmin = false;
+
 }
