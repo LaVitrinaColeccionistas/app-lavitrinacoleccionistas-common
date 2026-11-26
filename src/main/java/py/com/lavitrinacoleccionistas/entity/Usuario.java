@@ -30,6 +30,9 @@ public class Usuario extends AuditableEntity {
     @Column(name = "estado", nullable = false, length = 30)
     private EstadoUsuario estado;
 
+    @Column(name = "resumen_pendiente", nullable = false)
+    private Boolean resumenPendiente = false;
+
     @OneToOne(
             mappedBy = "usuario",
             cascade = CascadeType.ALL,

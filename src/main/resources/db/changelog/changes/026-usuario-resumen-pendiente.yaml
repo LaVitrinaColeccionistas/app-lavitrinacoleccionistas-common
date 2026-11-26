@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 026-usuario-resumen-pendiente
+      author: equipo
+      comment: >
+        Marca para el cron job del resumen de gastos: en TRUE el usuario recibe el resumen en la proxima corrida
+        y el job la pasa a FALSE. Default FALSE: los usuarios existentes y los que inserten versiones anteriores
+        de commons (sin este campo) quedan sin envio pendiente.
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - columnExists:
+                tableName: usuario
+                columnName: resumen_pendiente
+      changes:
+        - addColumn:
+            tableName: usuario
+            columns:
+              - column: {name: resumen_pendiente, type: BOOLEAN, defaultValueBoolean: false, constraints: {nullable: false}}

@@ -51,3 +51,5 @@ databaseChangeLog:
       file: db/changelog/changes/025-cron-job-intercambio-soporte.yaml
   - include:
       file: db/changelog/changes/026-cron-job-catalogo.yaml
+  - include:
+      file: db/changelog/changes/026-usuario-resumen-pendiente.yaml
