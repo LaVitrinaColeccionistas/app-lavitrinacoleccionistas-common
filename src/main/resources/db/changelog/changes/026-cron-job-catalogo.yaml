@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 026-cron-job-catalogo
+      author: equipo
+      changes:
+        - addColumn:
+            tableName: oferta
+            columns:
+              - column: {name: notificacion_aceptada_enviada, type: BOOLEAN, defaultValueBoolean: true, constraints: {nullable: false}}
+        - addDefaultValue:
+            tableName: oferta
+            columnName: notificacion_aceptada_enviada
+            defaultValueBoolean: false

@@ -34,4 +34,6 @@ public class Oferta extends BaseEntity {
     @Column(name = "fecha_respuesta")
     private LocalDateTime fechaRespuesta;
 
+    @Column(name = "notificacion_aceptada_enviada", nullable = false)
+    private Boolean notificacionAceptadaEnviada = false;
 }
